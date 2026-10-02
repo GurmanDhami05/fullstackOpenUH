@@ -17,6 +17,10 @@ const Display = ({ count, children }) => {
 };
 
 const Statistics = ({ good, neutral, bad, total, avg, pos }) => {
+  if (total === 0) {
+    return <p>No feedback given</p>;
+  }
+
   return (
     <>
       <Display count={good}>Good</Display>
