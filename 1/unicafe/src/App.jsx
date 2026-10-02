@@ -8,10 +8,10 @@ const Button = ({ onClick, children }) => {
   );
 };
 
-const Display = ({ count, children }) => {
+const StatisticLine = ({ text, value }) => {
   return (
     <p>
-      {children}:{count}
+      {text}:{value}
     </p>
   );
 };
@@ -23,12 +23,12 @@ const Statistics = ({ good, neutral, bad, total, avg, pos }) => {
 
   return (
     <>
-      <Display count={good}>Good</Display>
-      <Display count={neutral}>Neutral</Display>
-      <Display count={bad}>Bad</Display>
-      <Display count={total}>All</Display>
-      <Display count={avg}>Average</Display>
-      <Display count={`${pos} %`}>Positive</Display>
+      <StatisticLine value={good} text={"good"} />
+      <StatisticLine value={neutral} text={"neutral"} />
+      <StatisticLine value={bad} text={"bad"} />
+      <StatisticLine value={total} text={"total"} />
+      <StatisticLine value={avg} text={"average"} />
+      <StatisticLine value={`${pos} %`} text={"Positive"} />
     </>
   );
 };
