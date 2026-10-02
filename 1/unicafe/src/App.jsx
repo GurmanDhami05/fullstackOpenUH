@@ -16,6 +16,19 @@ const Display = ({ count, children }) => {
   );
 };
 
+const Statistics = ({ good, neutral, bad, total, avg, pos }) => {
+  return (
+    <>
+      <Display count={good}>Good</Display>
+      <Display count={neutral}>Neutral</Display>
+      <Display count={bad}>Bad</Display>
+      <Display count={total}>All</Display>
+      <Display count={avg}>Average</Display>
+      <Display count={`${pos} %`}>Positive</Display>
+    </>
+  );
+};
+
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -40,12 +53,14 @@ const App = () => {
       <Button onClick={handleNeutral}>neutral</Button>
       <Button onClick={handleBad}>bad</Button>
       <h2>statistics</h2>
-      <Display count={good}>Good</Display>
-      <Display count={neutral}>Neutral</Display>
-      <Display count={bad}>Bad</Display>
-      <Display count={total}>all</Display>
-      <Display count={avg}>average</Display>
-      <Display count={`${pos}%`}>Positive</Display>
+      <Statistics
+        good={good}
+        bad={bad}
+        neutral={neutral}
+        total={total}
+        avg={avg}
+        pos={pos}
+      />
     </>
   );
 };
