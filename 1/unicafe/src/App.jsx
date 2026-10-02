@@ -8,11 +8,12 @@ const Button = ({ onClick, children }) => {
   );
 };
 
-const StatisticLine = ({ text, value }) => {
+const TableRow = ({ text, value }) => {
   return (
-    <p>
-      {text}:{value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
@@ -22,14 +23,16 @@ const Statistics = ({ good, neutral, bad, total, avg, pos }) => {
   }
 
   return (
-    <>
-      <StatisticLine value={good} text={"good"} />
-      <StatisticLine value={neutral} text={"neutral"} />
-      <StatisticLine value={bad} text={"bad"} />
-      <StatisticLine value={total} text={"total"} />
-      <StatisticLine value={avg} text={"average"} />
-      <StatisticLine value={`${pos} %`} text={"Positive"} />
-    </>
+    <table>
+      <tbody>
+        <TableRow value={good} text={"good"} />
+        <TableRow value={neutral} text={"neutral"} />
+        <TableRow value={bad} text={"bad"} />
+        <TableRow value={total} text={"total"} />
+        <TableRow value={avg} text={"average"} />
+        <TableRow value={`${pos} %`} text={"Positive"} />
+      </tbody>
+    </table>
   );
 };
 
