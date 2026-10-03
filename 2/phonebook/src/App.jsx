@@ -6,6 +6,11 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const nameExists = persons.some((user) => user.name === newName);
+    if (nameExists) {
+      alert(`${newName} is already added to the Phonebook`);
+      return;
+    }
     const personObj = {
       name: newName,
       id: String(persons.length + 1),
