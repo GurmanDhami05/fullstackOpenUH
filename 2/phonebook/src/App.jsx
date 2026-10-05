@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -25,9 +26,11 @@ const PersonForm = ({ persons, setPersons }) => {
       id: String(persons.length + 1),
       number: newNumber,
     };
-    setPersons(persons.concat(personObj));
-    setNewName("");
-    setNewNumber("");
+    axios.post("http://localhost:3001/persons", personObj).then((res) => {
+      setPersons(persons.concat(personObj));
+      setNewName("");
+      setNewNumber("");
+    });
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -66,11 +69,14 @@ const Display = ({ filteredPerson }) => {
 };
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", id: "1", number: "1234567890" },
-  ]);
-
+  const [persons, setPersons] = useState([]);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons").then((res) => {
+      setPersons(res.data);
+    });
+  }, []);
 
   const filteredPerson = persons.filter((person) => {
     return person.name.toLowerCase().includes(search.toLowerCase());
