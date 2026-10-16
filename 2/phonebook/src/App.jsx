@@ -54,19 +54,24 @@ const PersonForm = ({ persons, setPersons }) => {
   );
 };
 
-const Display = ({ filteredPerson }) => {
+const Display = ({ filteredPerson, handleDelete }) => {
   return (
     <div>
       {filteredPerson.map((person) => (
         <p key={person.id}>
           {person.name}:{"     "}
           {person.number}
+          <button
+            onClick={() => handleDelete(person)}
+            style={{ marginLeft: "12px" }}
+          >
+            delete
+          </button>
         </p>
       ))}
     </div>
   );
 };
-
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [search, setSearch] = useState("");
@@ -81,6 +86,14 @@ const App = () => {
     return person.name.toLowerCase().includes(search.toLowerCase());
   });
 
+  const handleDelete = (person) => {
+    if (confirm(`delete ${person.name}`)) {
+      personServices.deleteOne(person.id).then((res) => {
+        setPersons(persons.filter((p) => p.id !== res.id));
+      });
+    }
+  };
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -88,7 +101,7 @@ const App = () => {
       <h2>Add a new</h2>
       <PersonForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
-      <Display filteredPerson={filteredPerson} />
+      <Display filteredPerson={filteredPerson} handleDelete={handleDelete} />
     </div>
   );
 };
