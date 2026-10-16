@@ -23,11 +23,10 @@ const PersonForm = ({ persons, setPersons }) => {
     }
     const personObj = {
       name: newName,
-      id: String(persons.length + 1),
       number: newNumber,
     };
     axios.post("http://localhost:3001/persons", personObj).then((res) => {
-      setPersons(persons.concat(personObj));
+      setPersons(persons.concat(res.data));
       setNewName("");
       setNewNumber("");
     });
