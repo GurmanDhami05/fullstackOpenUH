@@ -54,6 +54,11 @@
       "name": "John Marstorn ",
       "number": "234324123",
       "id": "fkvPvFQHOU4"
+    },
+    {
+      "name": "Arthur Morgan",
+      "number": "3242432432423",
+      "id": "3lbbA5uYJno"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
