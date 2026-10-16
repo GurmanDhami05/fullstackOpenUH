@@ -4,6 +4,16 @@
       "name": "Hank Shrader",
       "number": "2342432432",
       "id": "QofKpMG6EWE"
+    },
+    {
+      "name": "dhami",
+      "number": "9257813671",
+      "id": "MP-Nx2D86GU"
+    },
+    {
+      "name": "Tom Hanks",
+      "number": "3234118233",
+      "id": "5PZmNsDV370"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
