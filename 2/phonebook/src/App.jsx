@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import personServices from "./services/persons";
+import Notification from "./components/Notification";
 
 const Filter = ({ value, onChange }) => {
   return (
@@ -10,7 +11,12 @@ const Filter = ({ value, onChange }) => {
   );
 };
 
-const PersonForm = ({ persons, setPersons }) => {
+const PersonForm = ({
+  persons,
+  setPersons,
+  setNotificationMessage,
+  setNotificationType,
+}) => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
 
@@ -24,11 +30,29 @@ const PersonForm = ({ persons, setPersons }) => {
         )
       ) {
         const newObj = { ...person, number: newNumber };
-        personServices.update(person.id, newObj).then((res) => {
-          setPersons(persons.map((p) => (p.id === person.id ? res : p)));
-          setNewNumber("");
-          setNewName("");
-        });
+        personServices
+          .update(person.id, newObj)
+          .then((res) => {
+            setPersons(persons.map((p) => (p.id === person.id ? res : p)));
+            setNewNumber("");
+            setNewName("");
+
+            setNotificationType("success");
+            setNotificationMessage(`Updated ${res.name}`);
+            setTimeout(() => {
+              setNotificationMessage(null);
+            }, 2000);
+          })
+          .catch((error) => {
+            setNotificationType("error");
+            setNotificationMessage(
+              `information of '${newName}' was already removed from server`,
+            );
+            setTimeout(() => {
+              setNotificationMessage(null);
+            }, 5000);
+            setPersons(persons.filter((p) => p.id !== person.id));
+          });
       }
       return;
     }
@@ -40,6 +64,11 @@ const PersonForm = ({ persons, setPersons }) => {
       setPersons(persons.concat(res));
       setNewName("");
       setNewNumber("");
+      setNotificationType("success");
+      setNotificationMessage(`Added ${res.name}`);
+      setTimeout(() => {
+        setNotificationMessage(null);
+      }, 2000);
     });
   };
   return (
@@ -86,6 +115,8 @@ const Display = ({ filteredPerson, handleDelete }) => {
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [search, setSearch] = useState("");
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationType, setNotificationType] = useState("success");
 
   useEffect(() => {
     personServices.getAll().then((res) => {
@@ -108,9 +139,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} type={notificationType} />
       <Filter value={search} onChange={setSearch} />
       <h2>Add a new</h2>
-      <PersonForm persons={persons} setPersons={setPersons} />
+      <PersonForm
+        persons={persons}
+        setPersons={setPersons}
+        setNotificationMessage={setNotificationMessage}
+        setNotificationType={setNotificationType}
+      />
       <h2>Numbers</h2>
       <Display filteredPerson={filteredPerson} handleDelete={handleDelete} />
     </div>
