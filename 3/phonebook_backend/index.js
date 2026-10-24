@@ -26,6 +26,8 @@ let persons = [
   },
 ];
 
+const generateId = () => Math.random().toString(36).substring(2, 11);
+
 app.get("/api/persons", (req, res) => {
   res.json(persons);
 });
@@ -50,6 +52,22 @@ app.delete("/api/persons/:id", (req, res) => {
   const id = req.params.id;
   persons = persons.filter((p) => p.id !== id);
   res.status(204).end();
+});
+
+app.post("/api/persons", (req, res) => {
+  const { name, number } = req.body;
+  if (!name || !number) {
+    return res.status(400).json({ message: "name or number is missing" });
+  }
+  const person = {
+    id: generateId(),
+    name,
+    number,
+  };
+
+  persons = persons.concat(person);
+
+  res.json(person);
 });
 
 const PORT = 3001;
