@@ -3,7 +3,7 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-const persons = [
+let persons = [
   {
     id: "1",
     name: "Arto Hellas",
@@ -44,6 +44,12 @@ app.get("/api/persons/:id", (req, res) => {
     return res.status(404).json({ message: "person not found" });
   }
   res.json(person);
+});
+
+app.delete("/api/persons/:id", (req, res) => {
+  const id = req.params.id;
+  persons = persons.filter((p) => p.id !== id);
+  res.status(204).end();
 });
 
 const PORT = 3001;
